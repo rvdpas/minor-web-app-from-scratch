@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-
   var app = {
     init : function() {
       routes.init();
@@ -20,18 +19,17 @@
   var sections = {
     toggle: function (route) {
       var activeSection = document.querySelector(route);
-      var viewSections = document.getElementsByClassName('view');
+      var viewElement = document.getElementsByClassName('view');
 
-      for (var i = 0; i < viewSections.length; i++) {
-        if (viewSections[i].id == activeSection.id) {
-          viewSections[i].classList.remove('hide');
+      for (var i = 0; i < viewElement.length; i++) {
+        if (viewElement[i].id == activeSection.id) {
+          viewElement[i].classList.remove('hide');
         } else {
-          viewSections[i].classList.add('hide');
+          viewElement[i].classList.add('hide');
         }
       }
     }
   };
 
   app.init();
-
 })();
