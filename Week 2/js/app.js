@@ -64,8 +64,6 @@
       routie({
         '': function() {
           console.log('home')
-          // resultsPlaceholder.classList.remove('hide');
-          // resultsDetail.classList.add('hide');
         },
         'albums/:id': function(id) {
          

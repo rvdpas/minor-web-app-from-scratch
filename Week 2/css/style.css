@@ -47,25 +47,30 @@ section {
 }
 
 #search-form, .form-control {
-  margin-bottom: 20px;
+  margin-bottom: 1.5em;
 }
+
+a {
+  flex-grow: 1;
+  flex-basis: 25%;
+  max-width: 25%;
+}
+
 .cover {
-  width: 300px;
-  height: 300px;
-  display: inline-block;
-  background-size: cover;
+  max-width: 100%;
 }
-.cover:hover {
-  cursor: pointer;
+
+.results {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .hide {
   display: none;
 }
 
-
 #results-detail {
-  width: 40em;
+  width: 17em;
   margin: 0 auto;
-  background: #c1c1c1;
 }
