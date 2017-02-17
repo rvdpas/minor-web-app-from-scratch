@@ -1,3 +1,6 @@
+# Live version assignments
+https://rvdpas.github.io/minor/web-app-from-scratch/opdracht-5-spa/index.html
+
 # Wat is een Framework
 Een Framework is een toevoeging op de originele programmeertaal. In een Framework staat code geschreven, die de developer kan gebruiken om op een vereenvoudigere manier iets voor elkaar te krijgen. 
 
