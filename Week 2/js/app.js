@@ -1,6 +1,5 @@
 (function() {
   'use strict';
-
   var templateAlbums = Handlebars.compile(document.getElementById('results-template').innerHTML);
   var templateDetail = Handlebars.compile(document.getElementById('detail-template').innerHTML);
   var resultsPlaceholder = document.getElementById('results');
@@ -20,7 +19,12 @@
   };
 
   var request = {
+//     Werken met fetch & promises is een mogelijk alternatief om minder code hier te schrijven
     make: function (url, callback) {
+//     fetch(url)
+//             .then(data => data.json())
+//             .then(data => callback(data))
+//       Eventueel hier een catch
       var xhr = new XMLHttpRequest();
       xhr.open('GET', url, true);
 
