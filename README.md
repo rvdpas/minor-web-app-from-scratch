@@ -1,5 +1,6 @@
 # Live version assignments
 https://rvdpas.github.io/minor/web-app-from-scratch/opdracht-5-spa/index.html
+
 https://rvdpas.github.io/minor/web-app-from-scratch/routing-templating/
 
 # Wat is een Framework
