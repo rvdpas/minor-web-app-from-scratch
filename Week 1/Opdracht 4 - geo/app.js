@@ -42,7 +42,7 @@
             ET.addListener(config.gpsAvailable, startInterval);
             ET.addListener(config.gpsUnavailable, function(){debugMessage('GPS is niet beschikbaar.')});
 
-            (geo_position_js.init())?ET.fire(config.gpsAvailable):ET.fire(config.gpsUnavailable);
+            (geoPositionJs.init())?ET.fire(config.gpsAvailable):ET.fire(config.gpsUnavailable);
         },
 
         // Start een interval welke op basis van REFRESH_RATE de positie updated
@@ -56,7 +56,7 @@
         // Vraag de huidige positie aan geo.js, stel een callback in voor het resultaat
         updatePosition: function (){
             intervalCounter++;
-            geo_position_js.getCurrentPosition(setPosition, _geo_error_handler, {enableHighAccuracy:true});
+            geoPositionJs.getCurrentPosition(setPosition, _geo_error_handler, {enableHighAccuracy:true});
         },
 
         // Callback functie voor het instellen van de huidige positie, vuurt een event af
@@ -176,20 +176,22 @@
             });
 
             // Zorg dat de kaart geupdated wordt als het positionUpdated event afgevuurd wordt
-            ET.addListener(positionUpdated, update_positie);
-        },
-
-        isNumber: function (n) {
-          return !isNaN(parseFloat(n)) && isFinite(n);
+            ET.addListener(positionUpdated, updatePositie);
         },
 
         // Update de positie van de gebruiker op de kaart
-        update_positie: function (event){
+        updatePositie: function (event){
             // use currentPosition to center the map
             var newPos = new google.maps.LatLng(currentPosition.coords.latitude, currentPosition.coords.longitude);
             map.setCenter(newPos);
             currentPositionMarker.setPosition(newPos);
         },
+    }
+
+    var utilities = {
+        isNumber: function (n) {
+            return !isNaN(parseFloat(n)) && isFinite(n);
+        }
     }
 
     var debug = {

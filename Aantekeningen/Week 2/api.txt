@@ -1,0 +1,15 @@
+
+Application name	WebAppFromScratch
+API key	9a486013c07b78a01299078f12ff6334
+Shared secret	2c3c41a7e24f7636503acd4b2a283d79
+Registered to	Rvdp22
+
+
+15392f2c939ef5bf5e8657cdf18cc606
+
+
+http://ws.audioscrobbler.com/2.0/?method=artist.getSimilar&api_key=9a486013c07b78a01299078f12ff6334
+
+New York Times: 4c980ab6f17f462b82f103989a49bd99
+
+Rijksmuseum: X5YodZCE
