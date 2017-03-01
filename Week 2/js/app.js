@@ -53,6 +53,7 @@
           resultsPlaceholder.innerHTML = templateAlbums(data);
           resultsPlaceholder.classList.remove('hide');
           resultsDetail.classList.add('hide');
+          window.location.href="#";
         });
       }
     }
@@ -72,10 +73,22 @@
           });
 
           console.log(album);
-          
-          resultsDetail.innerHTML = templateDetail(album);
-          resultsPlaceholder.classList.add('hide');
-          resultsDetail.classList.remove('hide');
+          console.log('niet uitgebreid')
+          console.log(album.extend);
+          request.make(album.href, function(data) {
+            album.extend = true;
+            album.detail = {};
+            album.detail.copyrights = data.copyrights;
+            album.detail.tracks = data.tracks;
+            console.log(album);
+            console.log(data);
+            // data full detail obj of track
+            console.log('request finished');
+            resultsDetail.innerHTML = templateDetail(album);
+            resultsPlaceholder.classList.add('hide');
+            resultsDetail.classList.remove('hide');
+            return;
+          })
         }
       });
     }
