@@ -1,6 +1,7 @@
 (function() {
   'use strict';
 
+//   I would wrap this vars in an object
   var templateAlbums = Handlebars.compile(document.getElementById('results-template').innerHTML);
   var templateDetail = Handlebars.compile(document.getElementById('detail-template').innerHTML);
   var resultsPlaceholder = document.getElementById('results');
@@ -45,7 +46,7 @@
     onSearch: function (e) {
       e.preventDefault();
       var input = document.getElementById('input').value;
-
+//    I would combine the code below with the code for the detailpage in the router to a new 'render' object
       if (input.length > 0) {
         request.make(config.apiUrl + 'search?q=' + input + '&type=album', function(data) {
           albums = data.albums.items;
@@ -67,7 +68,6 @@
           console.log('home')
         },
         'albums/:id': function(id) {
-         
           var album = albums.find(function (album) {
             return album.id === id;
           });
