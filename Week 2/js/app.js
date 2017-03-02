@@ -1,6 +1,8 @@
 (function() {
   'use strict';
 
+  
+  //It might be better to place the variables below, in the config object. This way all the the variables are in one object.
   var templateAlbums = Handlebars.compile(document.getElementById('results-template').innerHTML);
   var templateDetail = Handlebars.compile(document.getElementById('detail-template').innerHTML);
   var resultsPlaceholder = document.getElementById('results');
@@ -9,7 +11,8 @@
   var config = {
     apiUrl: 'https://api.spotify.com/v1/'
   }
-
+  
+  //Also in the config object
   var albums = [];
 
   var app = {
