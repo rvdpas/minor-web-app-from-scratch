@@ -1,0 +1,76 @@
+/* Default styles */
+
+html, body {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+img, object, video, iframe {
+  max-width: 100%;
+}
+
+header, section, footer, aside, nav, main, article, figure {
+  display: block;
+}
+
+/* custom styles */
+
+html, body {
+  font-size: 16px;
+  color: #333;
+  font-weight: 300;
+  line-height: 1.6;
+  overflow-x: hidden;
+  background: #4a8b6a;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+}
+
+h1 {
+  font-size: 2em;
+}
+
+section {
+  width: 40em;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.form-control {
+  width: 14.5em;
+  border-radius: 5px;
+  border: 1px solid #333;
+  padding: 0.5em;
+}
+
+#search-form, .form-control {
+  margin-bottom: 1.5em;
+}
+
+a {
+  flex-grow: 1;
+  flex-basis: 25%;
+  max-width: 25%;
+}
+
+.cover {
+  max-width: 100%;
+}
+
+.results {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.hide {
+  display: none;
+}
+
+#results-detail {
+  width: 17em;
+  margin: 0 auto;
+}

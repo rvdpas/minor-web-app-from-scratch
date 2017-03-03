@@ -1,9 +1,6 @@
 (function () {
-<<<<<<< HEAD
 'use strict';
 
-=======
->>>>>>> e67bebee0848c3dc660db2af64982a9ba64d8fc8
   var app = {
     init : function() {
       routes.init();
