@@ -3,11 +3,6 @@
 
   var houses = [];
 
-  // var autoSuggestTemplate = document.getElementById('auto-suggest');
-  // var minimum = document.getElementById('minimum').value;
-  // var maximum = document.getElementById('maximum').value;
-  // var aantalKamers = document.getElementById('aantalKamers').value;
-
   // initialize all needed objects
   var app = {
     init : function() {
@@ -15,7 +10,7 @@
     }
   };
 
-  var config = {
+  var configs = {
     autoSuggestTemplate: document.getElementById('auto-suggest'),
     minimum: document.getElementById('minimum').value,
     maximum: document.getElementById('maximum').value,
@@ -61,7 +56,7 @@
       // Close search suggestion if user clicks out of the dropdown
       document.addEventListener('click', function(e) {
         if (e.target.closest('#auto-suggest') === null) {
-          config.autoSuggestTemplate.classList.add('hide');
+          configs.autoSuggestTemplate.classList.add('hide');
         }
       });
     },
@@ -89,16 +84,15 @@
     onSearch: function (e) {
       e.preventDefault();
       var input = document.getElementById('input').value;
-      var aantalKamers = document.getElementById('aantalKamers').value;
-      config.autoSuggestTemplate.classList.add('hide');
+      configs.autoSuggestTemplate.classList.add('hide');
 
       document.querySelector('.loader').classList.remove('hide');
 
       if (input.length > 0) {
         document.getElementById("search-input").innerHTML = "U heeft gezocht op " + input + ".";
-        document.getElementById("search-minimum").innerHTML = "U heeft een minimum prijs geselecteerd van: &euro; " + config.minimum + ".";
-        document.getElementById("search-maximum").innerHTML = "U heeft een maximum prijs geselecteerd van: &euro; " + config.maximum + ".";
-        document.getElementById("search-rooms").innerHTML = "U heeft  " + aantalKamers + " kamers geselecteerd.";
+        document.getElementById("search-minimum").innerHTML = "U heeft een minimum prijs geselecteerd van: &euro; " + configs.minimum + ".";
+        document.getElementById("search-maximum").innerHTML = "U heeft een maximum prijs geselecteerd van: &euro; " + configs.maximum + ".";
+        document.getElementById("search-rooms").innerHTML = "U heeft  " + configs.aantalKamers + " kamers geselecteerd.";
         var results = [];
         search.fetch(1, []);
       }
@@ -141,16 +135,13 @@
     render: function() {
       var resultsPlaceholder = document.getElementById('results');
       var templateHouses = Handlebars.compile(document.getElementById('results-template').innerHTML);
-      // var minimum = document.getElementById('minimum').value;
-      // var maximum = document.getElementById('maximum').value;
-      // var aantalKamers = document.getElementById('aantalKamers').value;
 
       var filteredHouses = houses.filter(function(house) {
-        if (config.aantalKamers && house.AantalKamers != config.aantalKamers) {
+        if (configs.aantalKamers && house.AantalKamers != configs.aantalKamers) {
           return false;
         }
 
-        if (house.Koopprijs <= config.minimum || (config.maximum !== 'onbeperkt' && house.Koopprijs >= config.maximum)) {
+        if (house.Koopprijs <= configs.minimum || (configs.maximum !== 'onbeperkt' && house.Koopprijs >= configs.maximum)) {
           return false;
         }
 
