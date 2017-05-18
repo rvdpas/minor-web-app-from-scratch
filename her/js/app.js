@@ -1,7 +1,6 @@
 (function() {
   'use strict';
 
-
   var config = {
     autoSuggestTemplate: document.getElementById('auto-suggest'),
     minimum: document.getElementById('minimum').value,
@@ -20,7 +19,7 @@
         if (xhr.status >= 200 && xhr.status < 400) {
           var data = JSON.parse(xhr.responseText);
           callback(data);
-          search.cleanData(data)
+          cleanData(data);
           console.log(data);
         }
         else {
@@ -37,6 +36,21 @@
       search.init();
     }
   };
+
+  // clean up data with Map
+  var cleanData = function(data) {
+    var collectionObject = Object.keys(data.Objects).map(function (key) {
+      return {
+        rooms: data.Objects[key].AantalKamers,
+        image: data.Objects[key].FotoLarge,
+        address: data.Objects[key].Adres,
+        postalCode: data.Objects[key].Postcode,
+        city: data.Objects[key].Woonplaats,
+        price: data.Objects[key].PrijsGeformatteerdHtml,
+      };
+    });
+  };
+
   // Retrieves the users input and makes a api request to retrieve the houses from funda.
   var search = {
     init: function () {
@@ -45,7 +59,6 @@
 
       this.onInput();
       this.onFilterChange();
-      this.cleanData();
 
       // CLick on search suggestion
       document.addEventListener('click', function(e) {
@@ -61,20 +74,6 @@
           config.autoSuggestTemplate.classList.add('hide');
         }
       });
-    },
-
-    // clean up data with Map
-    cleanData: function() {
-      var collectionObject = Object.keys(data.Object).map(function (key) {
-        return {
-          rooms: data.Object[key].AantalKamers,
-        };
-
-        console.log(collectionObject)
-      });
-      // var cleanedData = data.map(function(useful) {
-      //     var
-      // });
     },
 
     // Gets the users input when he starts typing and makes a request to the autosuggest api.
@@ -96,7 +95,7 @@
         });
       });
     },
-    // Checks if something there is anything in the form and gives feedback to the user.
+    // Checks if there is anything in the form and gives feedback to the user.
     onSearch: function (e) {
       e.preventDefault();
       var input = document.getElementById('input').value;
