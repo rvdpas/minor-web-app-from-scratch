@@ -9,6 +9,9 @@
     houses: [],
   };
 
+  var resultsPlaceholder = document.getElementById('results');
+  var detailsPlaceholder = document.getElementById('results-detail');
+
   // Making a request object
   var request = {
     make: function (url, callback) {
@@ -19,8 +22,6 @@
         if (xhr.status >= 200 && xhr.status < 400) {
           var data = JSON.parse(xhr.responseText);
           callback(data);
-          cleanData(data);
-          console.log(data);
         }
         else {
           alert('Request failed.  Returned status of ' + xhr.status);
@@ -34,21 +35,18 @@
   var app = {
     init : function() {
       search.init();
+      routes.create();
     }
   };
 
-  // clean up data with Map
-  var cleanData = function(data) {
-    var collectionObject = Object.keys(data.Objects).map(function (key) {
-      return {
-        rooms: data.Objects[key].AantalKamers,
-        image: data.Objects[key].FotoLarge,
-        address: data.Objects[key].Adres,
-        postalCode: data.Objects[key].Postcode,
-        city: data.Objects[key].Woonplaats,
-        price: data.Objects[key].PrijsGeformatteerdHtml,
-      };
-    });
+  var routes = {
+    create: function() {
+      routie({
+        'residences/:GroupByObjectType': function(GroupByObjectType) {
+          search.getResidence(GroupByObjectType);
+        },
+      });
+    },
   };
 
   // Retrieves the users input and makes a api request to retrieve the houses from funda.
@@ -80,17 +78,19 @@
     onInput: function () {
       var templateAutoSuggest = Handlebars.compile(document.getElementById('auto-suggest-template').innerHTML);
       var autoSuggests = [];
+      var input = document.getElementById('input');
+      console.log(input);
       document.getElementById("input").addEventListener("input", function () {
         request.make(key.autoSuggest + input.value + '&max=5&type=koop', function(data) {
-          autoSuggests = data;
-          var input = document.getElementById('input').value;
+          autoSuggests.push(data);
+          console.log(autoSuggests);
 
-          key.autoSuggestTemplate.innerHTML = templateAutoSuggest(data);
+          config.autoSuggestTemplate.innerHTML = templateAutoSuggest(autoSuggests.Results);
 
           if (input.length > 0) {
-            key.autoSuggestTemplate.classList.remove('hide');
+            config.autoSuggestTemplate.classList.remove('hide');
           } else {
-            key.autoSuggestTemplate.classList.add('hide');
+            config.autoSuggestTemplate.classList.add('hide');
           }
         });
       });
@@ -145,10 +145,37 @@
       }.bind(this));
     },
 
+    getResidence: function (GroupByObjectType) {
+      var request = new window.XMLHttpRequest();
+      var url = "http://funda.kyrandia.nl/feeds/Aanbod.svc/json/detail/" + key.secret + "/koop/" + GroupByObjectType + "/";
+
+      request.open("GET", url, true);
+      request.onload = function() {
+        if (request.status >= 200 && request.status < 400) {
+        // Success!
+        var data = JSON.parse(request.responseText);
+
+        search.detail(data);
+        console.log(data);
+
+        } else {
+          // We reached our target server, but it returned an error
+        }
+
+      };
+
+      request.onerror = function() {
+        // There was a connection error of some sort
+      };
+
+      request.send();
+      search.detail(GroupByObjectType);
+    },
+
     // Filters to get min and max price + multiple rooms
     render: function() {
-      var resultsPlaceholder = document.getElementById('results');
       var templateHouses = Handlebars.compile(document.getElementById('results-template').innerHTML);
+      // var detailHouses = Handlebars.compile(document.getElementById('detail-template').innerHTML);
 
       var filteredHouses = config.houses.filter(function(house) {
         if (config.aantalKamers && house.AantalKamers != config.aantalKamers) {
@@ -162,9 +189,34 @@
         return true;
       });
 
-      resultsPlaceholder.innerHTML = templateHouses({data: filteredHouses});
+      var cleanedData = Object.keys(filteredHouses).map(function (key) {
+        return {
+          rooms: filteredHouses[key].AantalKamers,
+          image: filteredHouses[key].FotoLarge,
+          address: filteredHouses[key].Adres,
+          postalCode: filteredHouses[key].Postcode,
+          city: filteredHouses[key].Woonplaats,
+          price: filteredHouses[key].PrijsGeformatteerdHtml,
+          id: filteredHouses[key].GroupByObjectType,
+        };
+      });
+      console.log(cleanedData)
+
+      resultsPlaceholder.innerHTML = templateHouses({data: cleanedData});
       resultsPlaceholder.classList.remove('hide');
       document.querySelector('.loader').classList.add('hide');
+    },
+
+    detail: function(data) {
+      console.log(data);
+      var rawTemplating = document.getElementById("detail-template").innerHTML;
+      var compiledTemplate = Handlebars.compile(rawTemplating);
+      var ourGeneratedHTML = compiledTemplate(data);
+
+      var resultsPage = document.getElementById("results-detail");
+      resultsPlaceholder.classList.add('hide');
+      resultsPage.classList.remove('hide');
+      resultsPage.innerHTML = ourGeneratedHTML;
     },
   };
 

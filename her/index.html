@@ -86,7 +86,7 @@
 <script src="js/routie.js"></script>
 
 <script id="auto-suggest-template" type="text/x-handlebars-template">
-    {{#each Results}}
+    {{#each data}}
         <li><a href="#" class="search-item">{{Display.Naam}}</a></li>
     {{/each}}
 </script>
@@ -95,15 +95,28 @@
     <section>
         {{#each data}}
             <article class="item">
-                <img src="{{FotoLarge}}" />
-                <p><span>Adres:</span> {{Adres}}</p>
-                <p><span>Postcode:</span> {{Postcode}} Plaats: {{Woonplaats}}</p>
-                <p><span>Aantal kamers:</span> {{AantalKamers}}</p>
-                <p class="price">{{{PrijsGeformatteerdHtml}}}</p>
-                <p><span>Soort huis:</span> {{Soort-aanbod}}</p>
+                <a href="#residences/{{id}}">
+                    <img src="{{image}}" />
+                    <p><span>Adres:</span> {{address}}</p>
+                    <p><span>Postcode:</span> {{postalCode}} Plaats: {{city}}</p>
+                    <p><span>Aantal kamers:</span> {{rooms}}</p>
+                    <p class="price">{{{price}}}</p>
+                </a>
             </article>
         {{/each}}
     </section>
+</script>
+
+<script id="detail-template" type="text/x-handlebars-template">
+    <article>
+        <img src="{{HoofdFoto}}" />
+        <h1>{{Adres}}</h1>
+        <p>{{Postcode}} {{Plaats}}</p>
+        <p>{{objectType}}</p>
+        <p>{{{PrijsGeformatteerd}}}</p>
+        <p>Ligging: {{Ligging}}</p>
+        <p>{{Makelaar}}</p>
+    </article>
 </script>
 
 <script src="js/config.js"></script>
