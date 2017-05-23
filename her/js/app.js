@@ -2,7 +2,6 @@
   'use strict';
 
   var config = {
-    autoSuggestTemplate: document.getElementById('auto-suggest'),
     minimum: document.getElementById('minimum').value,
     maximum: document.getElementById('maximum').value,
     aantalKamers: document.getElementById('aantalKamers').value,
@@ -55,7 +54,6 @@
       var form = document.getElementById('search');
       form.addEventListener('submit', this.onSearch);
 
-      this.onInput();
       this.onFilterChange();
 
       // CLick on search suggestion
@@ -65,42 +63,12 @@
           this.onSearch(e);
         }
       }.bind(this));
-
-      // Close search suggestion if user clicks out of the dropdown
-      document.addEventListener('click', function(e) {
-        if (e.target.closest('#auto-suggest') === null) {
-          config.autoSuggestTemplate.classList.add('hide');
-        }
-      });
     },
 
-    // Gets the users input when he starts typing and makes a request to the autosuggest api.
-    onInput: function () {
-      var templateAutoSuggest = Handlebars.compile(document.getElementById('auto-suggest-template').innerHTML);
-      var autoSuggests = [];
-      var input = document.getElementById('input');
-      console.log(input);
-      document.getElementById("input").addEventListener("input", function () {
-        request.make(key.autoSuggest + input.value + '&max=5&type=koop', function(data) {
-          autoSuggests.push(data);
-          console.log(autoSuggests);
-
-          config.autoSuggestTemplate.innerHTML = templateAutoSuggest(autoSuggests.Results);
-
-          if (input.length > 0) {
-            config.autoSuggestTemplate.classList.remove('hide');
-          } else {
-            config.autoSuggestTemplate.classList.add('hide');
-          }
-        });
-      });
-    },
     // Checks if there is anything in the form and gives feedback to the user.
     onSearch: function (e) {
       e.preventDefault();
       var input = document.getElementById('input').value;
-      config.autoSuggestTemplate.classList.add('hide');
-
       document.querySelector('.loader').classList.remove('hide');
 
       if (input.length > 0) {
@@ -156,16 +124,10 @@
         var data = JSON.parse(request.responseText);
 
         search.detail(data);
-        console.log(data);
-
-        } else {
-          // We reached our target server, but it returned an error
         }
-
       };
 
       request.onerror = function() {
-        // There was a connection error of some sort
       };
 
       request.send();
@@ -175,7 +137,6 @@
     // Filters to get min and max price + multiple rooms
     render: function() {
       var templateHouses = Handlebars.compile(document.getElementById('results-template').innerHTML);
-      // var detailHouses = Handlebars.compile(document.getElementById('detail-template').innerHTML);
 
       var filteredHouses = config.houses.filter(function(house) {
         if (config.aantalKamers && house.AantalKamers != config.aantalKamers) {
@@ -200,7 +161,6 @@
           id: filteredHouses[key].GroupByObjectType,
         };
       });
-      console.log(cleanedData)
 
       resultsPlaceholder.innerHTML = templateHouses({data: cleanedData});
       resultsPlaceholder.classList.remove('hide');
