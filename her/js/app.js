@@ -139,6 +139,7 @@
       var templateHouses = Handlebars.compile(document.getElementById('results-template').innerHTML);
 
       var filteredHouses = config.houses.filter(function(house) {
+        console.log(filteredHouses)
         if (config.aantalKamers && house.AantalKamers != config.aantalKamers) {
           return false;
         }
