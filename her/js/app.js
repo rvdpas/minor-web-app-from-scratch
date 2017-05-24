@@ -113,25 +113,13 @@
       }.bind(this));
     },
 
+    // make request for detail page
     getResidence: function (GroupByObjectType) {
-      var request = new window.XMLHttpRequest();
       var url = "http://funda.kyrandia.nl/feeds/Aanbod.svc/json/detail/" + key.secret + "/koop/" + GroupByObjectType + "/";
 
-      request.open("GET", url, true);
-      request.onload = function() {
-        if (request.status >= 200 && request.status < 400) {
-        // Success!
-        var data = JSON.parse(request.responseText);
-
-        search.detail(data);
-        }
-      };
-
-      request.onerror = function() {
-      };
-
-      request.send();
-      search.detail(GroupByObjectType);
+      request.make(url, function(GroupByObjectType) {
+        search.detail(GroupByObjectType);
+      });
     },
 
     // Filters to get min and max price + multiple rooms
@@ -151,6 +139,7 @@
         return true;
       });
 
+      // clean up data and make new object
       var cleanedData = Object.keys(filteredHouses).map(function (key) {
         return {
           rooms: filteredHouses[key].AantalKamers,
@@ -167,9 +156,8 @@
       resultsPlaceholder.classList.remove('hide');
       document.querySelector('.loader').classList.add('hide');
     },
-
+    // print detail page
     detail: function(data) {
-      console.log(data);
       var rawTemplating = document.getElementById("detail-template").innerHTML;
       var compiledTemplate = Handlebars.compile(rawTemplating);
       var ourGeneratedHTML = compiledTemplate(data);
